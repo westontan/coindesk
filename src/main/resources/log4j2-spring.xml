@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration strict="true" status="info">
+    <Appenders>
+        <Appender type="Console" name="Console">
+            <Layout type="PatternLayout" pattern="${sys:CONSOLE_LOG_PATTERN}" />
+        </Appender>
+        <Appender type="RollingFile" name="RollingFile"
+                fileName="${sys:LOG_PATH}/${sys:LOG_FILE}.log"
+                filePattern="${sys:LOG_PATH}/%d{yyMMdd}/${sys:LOG_FILE}_%d{HH}h.log">
+            <Layout type="PatternLayout" pattern="${sys:FILE_LOG_PATTERN}" />
+            <Policies>
+                <Policy type="TimeBasedTriggeringPolicy" interval="1" modulate="true" />
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${sys:LOG_PATH}" maxDepth="2">
+                    <IfLastModified age="${sys:LOG_FILE_MAX_HISTORY}" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </Appender>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
+        </Root>
+    </Loggers>
+</Configuration>
