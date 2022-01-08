@@ -17,14 +17,26 @@ import lombok.Data;
 @Data
 public class CoinDeskDto {
     
+    /**
+     * 更新時間
+     */
     @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime time;
+    /**
+     * 幣別相關資訊
+     */
     private Map<String, Currency> currencies;
     
     @Data
     public static class Currency {
     
+        /**
+         * 幣別中文名稱
+         */
         private String cht;
+        /**
+         * 匯率
+         */
         private float rate;
         
     }
