@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,8 @@ public class ApplicationTest {
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
+    @Value("${coindesk.url}")
+    private String coindeskUrl;
     
     /**
      * 1. 測試呼叫查詢幣別對應表資料API，並顯示其內容。
@@ -127,7 +130,7 @@ public class ApplicationTest {
     @Order(5)
     void testCoinDeskAPI() {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity("https://api.coindesk.com/v1/bpi/currentprice.json", String.class);
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(coindeskUrl, String.class);
         //檢查是否回傳200
         Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         log.info("Response from CoinDesk API => {}", responseEntity.getBody());

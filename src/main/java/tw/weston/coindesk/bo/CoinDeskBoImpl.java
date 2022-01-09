@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tw.weston.coindesk.dao.CurrencyMappingDao;
@@ -31,6 +32,8 @@ public class CoinDeskBoImpl extends AbstractBo implements CoinDeskBo {
     private ObjectMapper objectMapper;
     @Autowired
     private CurrencyMappingDao currencyMappingDao;
+    @Value("${coindesk.url}")
+    private String coindeskUrl;
 
     @PostConstruct
     private void init() {
@@ -59,7 +62,7 @@ public class CoinDeskBoImpl extends AbstractBo implements CoinDeskBo {
     public CoinDeskDto query() {
         RestTemplate restTemplate = new RestTemplate();
         //因為Content-Type是application/javascript，無法透過RestTemplate直接幫你轉成POJO，所以先用字串接
-        String content = restTemplate.getForObject("https://api.coindesk.com/v1/bpi/currentprice.json", String.class);
+        String content = restTemplate.getForObject(coindeskUrl, String.class);
         //透過ObjectMapper把json字串轉成POJO
         OrigCoinDeskDto origCoinDeskDto = objectMapper.readValue(content, OrigCoinDeskDto.class);
         //資料轉換
