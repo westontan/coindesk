@@ -1,10 +1,10 @@
 # coindesk
 
 ### 專案說明
-使用 Spring Boot 及 Spring Data JPA 開發
+使用 Spring Boot、Spring Data JPA 及 H2 資料庫 開發
 
 ### 功能簡述
-1. 使用 H2 資料庫建立一張幣別與其中文名稱的對應表，並提供 CRUD 接口
+1. 建立一張幣別與其中文名稱的對應表，並提供 CRUD 接口
 2. 請求 coindesk API，將其內容進行資料轉換，提供新的查詢接口
     - coindesk API：https://api.coindesk.com/v1/bpi/currentprice.json
     - 回傳內容：
